@@ -1,0 +1,1472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1.1 (Python 3.11.5 on win32)" generated="20230926 19:15:27.909" rpa="false" schemaversion="4">
+<suite id="s1" name="gRPC Testing" source="D:\test1\GRPC_Testing\TestCase\gRPC_Testing.robot">
+<test id="s1-t1" name="Testcase1" line="10">
+<kw name="Log To Console" library="BuiltIn">
+<arg>\n\n********* Establishing connection with the remote server ***********\n</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:15:28.036" endtime="20230926 19:15:28.037"/>
+</kw>
+<kw name="Reciver command" library="grpc_keywords">
+<var>${rec_res}</var>
+<arg>${reciver.host}</arg>
+<arg>${reciver.user}</arg>
+<arg>${reciver.pwd}</arg>
+<arg>${reciver.bin_dir}/${reciver.gRPC_Receiver_Command}</arg>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${host}</arg>
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:15:28.040" endtime="20230926 19:15:28.040"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:15:28.040" level="INFO">Logging into '192.168.5.208:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:15:29.227" level="INFO">Read output: Activate the web console with: systemctl enable --now cockpit.socket
+
+Last failed login: Tue Sep 26 19:15:23 IST 2023 from 192.168.5.139 on ssh:notty
+There were 28 failed login attempts since the last successful login.
+Last login: Tue Sep 26 18:57:12 2023 from 192.168.5.139
+[admin@GRPC-Client ~]$</msg>
+<status status="PASS" starttime="20230926 19:15:28.040" endtime="20230926 19:15:29.227"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:28.039" endtime="20230926 19:15:29.227"/>
+</kw>
+<kw name="Write" library="SSHLibrary">
+<arg>cd ${reciver.bin_dir}</arg>
+<doc>Writes the given ``text`` on the remote machine and appends a newline.</doc>
+<msg timestamp="20230926 19:15:29.229" level="INFO">cd /home/admin/grpc_test_project/project/bin</msg>
+<status status="PASS" starttime="20230926 19:15:29.227" endtime="20230926 19:15:29.229"/>
+</kw>
+<kw name="Write" library="SSHLibrary">
+<arg>${cmd}</arg>
+<doc>Writes the given ``text`` on the remote machine and appends a newline.</doc>
+<msg timestamp="20230926 19:15:29.231" level="INFO">[admin@GRPC-Client bin]$ /home/admin/grpc_test_project/project/bin/grpc_receiver  -c 1 -l 3 –D -d /tmp</msg>
+<status status="PASS" starttime="20230926 19:15:29.229" endtime="20230926 19:15:29.231"/>
+</kw>
+<kw name="Read" library="SSHLibrary">
+<var>${output}</var>
+<arg>delay=2s</arg>
+<doc>Consumes and returns everything available on the server output.</doc>
+<msg timestamp="20230926 19:15:33.233" level="INFO">2023-09-26 19:15:29 [INFO] default receiving path is: /tmp
+2023-09-26 19:15:29 [INFO] Starting GRPC Receiver...
+2023-09-26 19:15:29 [INFO] Server listening on 0.0.0.0:50051 . Press Ctrl-C to end.</msg>
+<msg timestamp="20230926 19:15:33.233" level="INFO">${output} = 2023-09-26 19:15:29 [INFO] default receiving path is: /tmp
+2023-09-26 19:15:29 [INFO] Starting GRPC Receiver...
+2023-09-26 19:15:29 [INFO] Server listening on 0.0.0.0:50051 . Press Ctrl-C to end.
+...</msg>
+<status status="PASS" starttime="20230926 19:15:29.231" endtime="20230926 19:15:33.233"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${output}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:15:33.233" endtime="20230926 19:15:33.234"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>*********${cmd}***********</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:15:33.234" endtime="20230926 19:15:33.238"/>
+</kw>
+<kw name="List Directory" library="SSHLibrary">
+<var>${open_home}</var>
+<arg>${reciver.bin_dir}</arg>
+<doc>Returns and logs items in the remote ``path``, optionally filtered with ``pattern``.</doc>
+<msg timestamp="20230926 19:15:33.287" level="INFO">[chan 1] Opened sftp connection (server version 3)</msg>
+<msg timestamp="20230926 19:15:33.292" level="INFO">5 items:
+grpc-chunk-4KB.pcap
+grpc_receiver
+grpc_sender
+man.lock
+test2se.txt</msg>
+<msg timestamp="20230926 19:15:33.292" level="INFO">${open_home} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:15:33.238" endtime="20230926 19:15:33.292"/>
+</kw>
+<msg timestamp="20230926 19:15:33.292" level="INFO">${rec_res} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:15:28.037" endtime="20230926 19:15:33.292"/>
+</kw>
+<kw name="Sender command specifed path" library="grpc_keywords">
+<var>${snd_result}</var>
+<arg>${sender.host}</arg>
+<arg>${sender.user}</arg>
+<arg>${sender.pwd}</arg>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${host}</arg>
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:15:33.294" endtime="20230926 19:15:33.294"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:15:33.294" level="INFO">Logging into '192.168.5.210:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:15:34.475" level="INFO">Read output: Web console: https://GRPC-Server.myguest2.virtualbox.org:9090/ or https://192.168.5.210:9090/
+
+Last login: Tue Sep 26 19:13:37 2023 from 192.168.5.139
+[admin@GRPC-Server ~]$</msg>
+<status status="PASS" starttime="20230926 19:15:33.294" endtime="20230926 19:15:34.475"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:33.294" endtime="20230926 19:15:34.475"/>
+</kw>
+<for flavor="IN">
+<var>${element}</var>
+<value>@{sender.senders_ip}</value>
+<iter>
+<var name="${element}">192.168.5.208:50051</var>
+<kw name="Execute Command" library="SSHLibrary">
+<var>${stdout}</var>
+<arg>${sender.bin_dir}/grpc_sender -D -s ${element} -f ${sender.bin_dir}/${sender.file_name} -v 1 -b 1MB -o ${sender.target_path}</arg>
+<arg>return_stdout=False</arg>
+<arg>return_stdout=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<msg timestamp="20230926 19:15:34.477" level="INFO">Executing command '/home/admin/grpc_test_project/project/bin/grpc_sender -D -s 192.168.5.208:50051 -f /home/admin/grpc_test_project/project/bin/test.txt -v 1 -b 1MB -o /tmp'.</msg>
+<msg timestamp="20230926 19:15:34.547" level="INFO">Command exited with return code 0.</msg>
+<msg timestamp="20230926 19:15:34.547" level="INFO">${stdout} = 2023-09-26 19:15:34 [INFO] Buffer chunk size is set to: 1MB
+2023-09-26 19:15:34 [INFO] GRPC destination pod service is: 192.168.5.208:50051
+2023-09-26 19:15:34 [INFO] Output Path: /tmp
+2023-09-26 19:1...</msg>
+<status status="PASS" starttime="20230926 19:15:34.476" endtime="20230926 19:15:34.547"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${stdout}</arg>
+<arg>File ${sender.bin_dir}/${sender.file_name} transfer succeeded.</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20230926 19:15:34.547" endtime="20230926 19:15:34.548"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:34.475" endtime="20230926 19:15:34.548"/>
+</iter>
+<status status="PASS" starttime="20230926 19:15:34.475" endtime="20230926 19:15:34.548"/>
+</for>
+<msg timestamp="20230926 19:15:34.548" level="INFO">${snd_result} = None</msg>
+<status status="PASS" starttime="20230926 19:15:33.292" endtime="20230926 19:15:34.548"/>
+</kw>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${reciver.host}</arg>
+<arg>${reciver.user}</arg>
+<arg>${reciver.pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:15:34.550" endtime="20230926 19:15:34.550"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:15:34.550" level="INFO">Logging into '192.168.5.208:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:15:35.770" level="INFO">Read output: Activate the web console with: systemctl enable --now cockpit.socket
+
+Last login: Tue Sep 26 19:15:28 2023 from 192.168.5.139
+[admin@GRPC-Client ~]$</msg>
+<status status="PASS" starttime="20230926 19:15:34.550" endtime="20230926 19:15:35.770"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:34.549" endtime="20230926 19:15:35.770"/>
+</kw>
+<kw name="List Directory" library="SSHLibrary">
+<var>${open_home}</var>
+<arg>${sender.target_path}</arg>
+<doc>Returns and logs items in the remote ``path``, optionally filtered with ``pattern``.</doc>
+<msg timestamp="20230926 19:15:35.812" level="INFO">[chan 1] Opened sftp connection (server version 3)</msg>
+<msg timestamp="20230926 19:15:35.818" level="INFO">14 items:
+.ICE-unix
+.X11-unix
+.esd-1000
+grpc_test_project
+systemd-private-773af12f4a6142ceb0183551a1c4e91e-ModemManager.service-cAbxSG
+systemd-private-773af12f4a6142ceb0183551a1c4e91e-chronyd.service-oQkGNB
+systemd-private-773af12f4a6142ceb0183551a1c4e91e-colord.service-iNbXSK
+systemd-private-773af12f4a6142ceb0183551a1c4e91e-fwupd.service-FplIXQ
+systemd-private-773af12f4a6142ceb0183551a1c4e91e-geoclue.service-s8XgeT
+systemd-private-773af12f4a6142ceb0183551a1c4e91e-rtkit-daemon.service-yUpMRo
+test.txt
+test1_grprecv1_4KB.pcap
+test2se.txt
+tracker-extract-files.1000</msg>
+<msg timestamp="20230926 19:15:35.818" level="INFO">${open_home} = ['.ICE-unix', '.X11-unix', '.esd-1000', 'grpc_test_project', 'systemd-private-773af12f4a6142ceb0183551a1c4e91e-ModemManager.service-cAbxSG', 'systemd-private-773af12f4a6142ceb0183551a1c4e91e-chronyd.s...</msg>
+<status status="PASS" starttime="20230926 19:15:35.770" endtime="20230926 19:15:35.818"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${open_home}</arg>
+<arg>${sender.file_name}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20230926 19:15:35.820" endtime="20230926 19:15:35.820"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:28.033" endtime="20230926 19:15:35.821"/>
+</test>
+<test id="s1-t2" name="Testcase2" line="23">
+<kw name="Reciver command" library="grpc_keywords">
+<var>${rec_res}</var>
+<arg>${reciver.host}</arg>
+<arg>${reciver.user}</arg>
+<arg>${reciver.pwd}</arg>
+<arg>${reciver.bin_dir}/${reciver.gprc_rec_path_cmd}</arg>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${host}</arg>
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:15:35.824" endtime="20230926 19:15:35.824"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:15:35.824" level="INFO">Logging into '192.168.5.208:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:15:36.996" level="INFO">Read output: Activate the web console with: systemctl enable --now cockpit.socket
+
+Last login: Tue Sep 26 19:15:34 2023 from 192.168.5.139
+[admin@GRPC-Client ~]$</msg>
+<status status="PASS" starttime="20230926 19:15:35.824" endtime="20230926 19:15:36.996"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:35.823" endtime="20230926 19:15:36.996"/>
+</kw>
+<kw name="Write" library="SSHLibrary">
+<arg>cd ${reciver.bin_dir}</arg>
+<doc>Writes the given ``text`` on the remote machine and appends a newline.</doc>
+<msg timestamp="20230926 19:15:36.998" level="INFO">cd /home/admin/grpc_test_project/project/bin</msg>
+<status status="PASS" starttime="20230926 19:15:36.996" endtime="20230926 19:15:36.998"/>
+</kw>
+<kw name="Write" library="SSHLibrary">
+<arg>${cmd}</arg>
+<doc>Writes the given ``text`` on the remote machine and appends a newline.</doc>
+<msg timestamp="20230926 19:15:37.000" level="INFO">[admin@GRPC-Client bin]$ /home/admin/grpc_test_project/project/bin/grpc_receiver  -c 1 -l 3 –D -d .</msg>
+<status status="PASS" starttime="20230926 19:15:36.998" endtime="20230926 19:15:37.000"/>
+</kw>
+<kw name="Read" library="SSHLibrary">
+<var>${output}</var>
+<arg>delay=2s</arg>
+<doc>Consumes and returns everything available on the server output.</doc>
+<msg timestamp="20230926 19:15:41.002" level="INFO">2023-09-26 19:15:36 [INFO] default receiving path is: .
+2023-09-26 19:15:36 [INFO] Starting GRPC Receiver...
+2023-09-26 19:15:36 [ERROR] Port 50051 is already in use
+2023-09-26 19:15:36 [ERROR] Port occupation detected. Exiting...
+[admin@GRPC-Client bin]$</msg>
+<msg timestamp="20230926 19:15:41.002" level="INFO">${output} = 2023-09-26 19:15:36 [INFO] default receiving path is: .
+2023-09-26 19:15:36 [INFO] Starting GRPC Receiver...
+2023-09-26 19:15:36 [ERROR] Port 50051 is already in use
+2023-09-26 19:15:36 [ERROR] Por...</msg>
+<status status="PASS" starttime="20230926 19:15:37.000" endtime="20230926 19:15:41.002"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${output}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:15:41.002" endtime="20230926 19:15:41.002"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>*********${cmd}***********</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:15:41.002" endtime="20230926 19:15:41.003"/>
+</kw>
+<kw name="List Directory" library="SSHLibrary">
+<var>${open_home}</var>
+<arg>${reciver.bin_dir}</arg>
+<doc>Returns and logs items in the remote ``path``, optionally filtered with ``pattern``.</doc>
+<msg timestamp="20230926 19:15:41.048" level="INFO">[chan 1] Opened sftp connection (server version 3)</msg>
+<msg timestamp="20230926 19:15:41.052" level="INFO">5 items:
+grpc-chunk-4KB.pcap
+grpc_receiver
+grpc_sender
+man.lock
+test2se.txt</msg>
+<msg timestamp="20230926 19:15:41.052" level="INFO">${open_home} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:15:41.003" endtime="20230926 19:15:41.052"/>
+</kw>
+<msg timestamp="20230926 19:15:41.052" level="INFO">${rec_res} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:15:35.822" endtime="20230926 19:15:41.052"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${rec_res}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:15:41.053" endtime="20230926 19:15:41.053"/>
+</kw>
+<kw name="Sender command unspecifed path" library="grpc_keywords">
+<var>${snd_result}</var>
+<arg>${sender.host}</arg>
+<arg>${sender.user}</arg>
+<arg>${sender.pwd}</arg>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${host}</arg>
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:15:41.055" endtime="20230926 19:15:41.055"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:15:41.055" level="INFO">Logging into '192.168.5.210:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:15:42.248" level="INFO">Read output: Web console: https://GRPC-Server.myguest2.virtualbox.org:9090/ or https://192.168.5.210:9090/
+
+Last login: Tue Sep 26 19:15:33 2023 from 192.168.5.139
+[admin@GRPC-Server ~]$</msg>
+<status status="PASS" starttime="20230926 19:15:41.055" endtime="20230926 19:15:42.248"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:41.054" endtime="20230926 19:15:42.248"/>
+</kw>
+<for flavor="IN">
+<var>${element}</var>
+<value>@{sender.senders_ip}</value>
+<iter>
+<var name="${element}">192.168.5.208:50051</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${sender.bin_dir}/grpc_sender -D -s ${element} -f ${sender.bin_dir}/${sender.file_name} -v 1 -b 1MB</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:15:42.249" endtime="20230926 19:15:42.250"/>
+</kw>
+<kw name="Execute Command" library="SSHLibrary">
+<var>${stdout}</var>
+<arg>${sender.bin_dir}/grpc_sender -D -s ${element} -f ${sender.bin_dir}/${sender.file_name} -v 1 -b 1MB</arg>
+<arg>return_stdout=False</arg>
+<arg>return_stdout=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<msg timestamp="20230926 19:15:42.251" level="INFO">Executing command '/home/admin/grpc_test_project/project/bin/grpc_sender -D -s 192.168.5.208:50051 -f /home/admin/grpc_test_project/project/bin/test.txt -v 1 -b 1MB'.</msg>
+<msg timestamp="20230926 19:15:42.322" level="INFO">Command exited with return code 0.</msg>
+<msg timestamp="20230926 19:15:42.322" level="INFO">${stdout} = 2023-09-26 19:15:42 [INFO] Buffer chunk size is set to: 1MB
+2023-09-26 19:15:42 [INFO] GRPC destination pod service is: 192.168.5.208:50051
+2023-09-26 19:15:42 [INFO] Checksum validation is set to: md...</msg>
+<status status="PASS" starttime="20230926 19:15:42.250" endtime="20230926 19:15:42.322"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${stdout}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:15:42.322" endtime="20230926 19:15:42.322"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${stdout}</arg>
+<arg>File ${sender.bin_dir}/${sender.file_name} transfer succeeded.</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20230926 19:15:42.323" endtime="20230926 19:15:42.323"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:42.248" endtime="20230926 19:15:42.323"/>
+</iter>
+<status status="PASS" starttime="20230926 19:15:42.248" endtime="20230926 19:15:42.323"/>
+</for>
+<msg timestamp="20230926 19:15:42.323" level="INFO">${snd_result} = None</msg>
+<status status="PASS" starttime="20230926 19:15:41.053" endtime="20230926 19:15:42.323"/>
+</kw>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${reciver.host}</arg>
+<arg>${reciver.user}</arg>
+<arg>${reciver.pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:15:42.327" endtime="20230926 19:15:42.327"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:15:42.327" level="INFO">Logging into '192.168.5.208:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:15:43.499" level="INFO">Read output: Activate the web console with: systemctl enable --now cockpit.socket
+
+Last login: Tue Sep 26 19:15:35 2023 from 192.168.5.139
+[admin@GRPC-Client ~]$</msg>
+<status status="PASS" starttime="20230926 19:15:42.327" endtime="20230926 19:15:43.499"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:42.326" endtime="20230926 19:15:43.499"/>
+</kw>
+<kw name="List Directory" library="SSHLibrary">
+<var>${open_home}</var>
+<arg>${reciver.bin_dir}</arg>
+<doc>Returns and logs items in the remote ``path``, optionally filtered with ``pattern``.</doc>
+<msg timestamp="20230926 19:15:43.538" level="INFO">[chan 1] Opened sftp connection (server version 3)</msg>
+<msg timestamp="20230926 19:15:43.543" level="INFO">5 items:
+grpc-chunk-4KB.pcap
+grpc_receiver
+grpc_sender
+man.lock
+test2se.txt</msg>
+<msg timestamp="20230926 19:15:43.543" level="INFO">${open_home} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:15:43.499" endtime="20230926 19:15:43.543"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${open_home}</arg>
+<arg>${sender.file_name}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<msg timestamp="20230926 19:15:43.544" level="FAIL">'['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']' does not contain 'test.txt'</msg>
+<status status="FAIL" starttime="20230926 19:15:43.544" endtime="20230926 19:15:43.544"/>
+</kw>
+<status status="FAIL" starttime="20230926 19:15:35.822" endtime="20230926 19:15:43.545">'['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']' does not contain 'test.txt'</status>
+</test>
+<test id="s1-t3" name="Testcase3" line="34">
+<kw name="Reciver command" library="grpc_keywords">
+<var>${rec_res}</var>
+<arg>${reciver.host}</arg>
+<arg>${reciver.user}</arg>
+<arg>${reciver.pwd}</arg>
+<arg>${reciver.bin_dir}/${reciver.gprc_rec_path_cmd}</arg>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${host}</arg>
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:15:43.549" endtime="20230926 19:15:43.549"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:15:43.549" level="INFO">Logging into '192.168.5.208:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:15:44.718" level="INFO">Read output: Activate the web console with: systemctl enable --now cockpit.socket
+
+Last login: Tue Sep 26 19:15:42 2023 from 192.168.5.139
+[admin@GRPC-Client ~]$</msg>
+<status status="PASS" starttime="20230926 19:15:43.549" endtime="20230926 19:15:44.718"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:43.549" endtime="20230926 19:15:44.718"/>
+</kw>
+<kw name="Write" library="SSHLibrary">
+<arg>cd ${reciver.bin_dir}</arg>
+<doc>Writes the given ``text`` on the remote machine and appends a newline.</doc>
+<msg timestamp="20230926 19:15:44.721" level="INFO">cd /home/admin/grpc_test_project/project/bin</msg>
+<status status="PASS" starttime="20230926 19:15:44.718" endtime="20230926 19:15:44.721"/>
+</kw>
+<kw name="Write" library="SSHLibrary">
+<arg>${cmd}</arg>
+<doc>Writes the given ``text`` on the remote machine and appends a newline.</doc>
+<msg timestamp="20230926 19:15:44.723" level="INFO">[admin@GRPC-Client bin]$ /home/admin/grpc_test_project/project/bin/grpc_receiver  -c 1 -l 3 –D -d .</msg>
+<status status="PASS" starttime="20230926 19:15:44.721" endtime="20230926 19:15:44.723"/>
+</kw>
+<kw name="Read" library="SSHLibrary">
+<var>${output}</var>
+<arg>delay=2s</arg>
+<doc>Consumes and returns everything available on the server output.</doc>
+<msg timestamp="20230926 19:15:48.725" level="INFO">2023-09-26 19:15:44 [INFO] default receiving path is: .
+2023-09-26 19:15:44 [INFO] Starting GRPC Receiver...
+2023-09-26 19:15:44 [ERROR] Port 50051 is already in use
+2023-09-26 19:15:44 [ERROR] Port occupation detected. Exiting...
+[admin@GRPC-Client bin]$</msg>
+<msg timestamp="20230926 19:15:48.725" level="INFO">${output} = 2023-09-26 19:15:44 [INFO] default receiving path is: .
+2023-09-26 19:15:44 [INFO] Starting GRPC Receiver...
+2023-09-26 19:15:44 [ERROR] Port 50051 is already in use
+2023-09-26 19:15:44 [ERROR] Por...</msg>
+<status status="PASS" starttime="20230926 19:15:44.723" endtime="20230926 19:15:48.725"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${output}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:15:48.725" endtime="20230926 19:15:48.726"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>*********${cmd}***********</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:15:48.726" endtime="20230926 19:15:48.732"/>
+</kw>
+<kw name="List Directory" library="SSHLibrary">
+<var>${open_home}</var>
+<arg>${reciver.bin_dir}</arg>
+<doc>Returns and logs items in the remote ``path``, optionally filtered with ``pattern``.</doc>
+<msg timestamp="20230926 19:15:48.778" level="INFO">[chan 1] Opened sftp connection (server version 3)</msg>
+<msg timestamp="20230926 19:15:48.782" level="INFO">5 items:
+grpc-chunk-4KB.pcap
+grpc_receiver
+grpc_sender
+man.lock
+test2se.txt</msg>
+<msg timestamp="20230926 19:15:48.782" level="INFO">${open_home} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:15:48.732" endtime="20230926 19:15:48.782"/>
+</kw>
+<msg timestamp="20230926 19:15:48.782" level="INFO">${rec_res} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:15:43.547" endtime="20230926 19:15:48.782"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${rec_res}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:15:48.783" endtime="20230926 19:15:48.783"/>
+</kw>
+<kw name="Send multiple mutiple_files" library="grpc_keywords">
+<var>${snd_result}</var>
+<arg>${sender.host}</arg>
+<arg>${sender.user}</arg>
+<arg>${sender.pwd}</arg>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${host}</arg>
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:15:48.785" endtime="20230926 19:15:48.785"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:15:48.785" level="INFO">Logging into '192.168.5.210:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:15:49.973" level="INFO">Read output: Web console: https://GRPC-Server.myguest2.virtualbox.org:9090/ or https://192.168.5.210:9090/
+
+Last login: Tue Sep 26 19:15:41 2023 from 192.168.5.139
+[admin@GRPC-Server ~]$</msg>
+<status status="PASS" starttime="20230926 19:15:48.785" endtime="20230926 19:15:49.973"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:48.785" endtime="20230926 19:15:49.973"/>
+</kw>
+<kw name="Create List" library="BuiltIn">
+<var>${files_with_prefix}</var>
+<doc>Returns a list containing given items.</doc>
+<msg timestamp="20230926 19:15:49.973" level="INFO">${files_with_prefix} = []</msg>
+<status status="PASS" starttime="20230926 19:15:49.973" endtime="20230926 19:15:49.973"/>
+</kw>
+<for flavor="IN">
+<var>${file}</var>
+<value>@{sender.mutiple_files}</value>
+<iter>
+<var name="${file}">test.txt</var>
+<kw name="Evaluate" library="BuiltIn">
+<var>${file_with_prefix}</var>
+<arg>"${sender.bin_dir}/${file}"</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20230926 19:15:49.975" level="INFO">${file_with_prefix} = /home/admin/grpc_test_project/project/bin/test.txt</msg>
+<status status="PASS" starttime="20230926 19:15:49.974" endtime="20230926 19:15:49.975"/>
+</kw>
+<kw name="Append To List" library="Collections">
+<arg>${files_with_prefix}</arg>
+<arg>${file_with_prefix}</arg>
+<doc>Adds ``values`` to the end of ``list``.</doc>
+<status status="PASS" starttime="20230926 19:15:49.975" endtime="20230926 19:15:49.975"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:49.973" endtime="20230926 19:15:49.975"/>
+</iter>
+<iter>
+<var name="${file}">test1.txt</var>
+<kw name="Evaluate" library="BuiltIn">
+<var>${file_with_prefix}</var>
+<arg>"${sender.bin_dir}/${file}"</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20230926 19:15:49.976" level="INFO">${file_with_prefix} = /home/admin/grpc_test_project/project/bin/test1.txt</msg>
+<status status="PASS" starttime="20230926 19:15:49.975" endtime="20230926 19:15:49.976"/>
+</kw>
+<kw name="Append To List" library="Collections">
+<arg>${files_with_prefix}</arg>
+<arg>${file_with_prefix}</arg>
+<doc>Adds ``values`` to the end of ``list``.</doc>
+<status status="PASS" starttime="20230926 19:15:49.976" endtime="20230926 19:15:49.977"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:49.975" endtime="20230926 19:15:49.977"/>
+</iter>
+<status status="PASS" starttime="20230926 19:15:49.973" endtime="20230926 19:15:49.977"/>
+</for>
+<kw name="Evaluate" library="BuiltIn">
+<var>${result}</var>
+<arg>",".join(${files_with_prefix})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20230926 19:15:49.977" level="INFO">${result} = /home/admin/grpc_test_project/project/bin/test.txt,/home/admin/grpc_test_project/project/bin/test1.txt</msg>
+<status status="PASS" starttime="20230926 19:15:49.977" endtime="20230926 19:15:49.977"/>
+</kw>
+<for flavor="IN">
+<var>${element}</var>
+<value>@{sender.senders_ip}</value>
+<iter>
+<var name="${element}">192.168.5.208:50051</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${sender.bin_dir}/grpc_sender -D -s ${element} -f ${result} -v 1 -c 2 -l3 -o ${sender.target_path}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:15:49.978" endtime="20230926 19:15:49.979"/>
+</kw>
+<kw name="Execute Command" library="SSHLibrary">
+<var>${stdout}</var>
+<arg>${sender.bin_dir}/grpc_sender -D -s ${element} -f ${result} -v 1 -c 2 -l3 -o ${sender.target_path}</arg>
+<arg>return_stdout=False</arg>
+<arg>return_stdout=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<msg timestamp="20230926 19:15:49.980" level="INFO">Executing command '/home/admin/grpc_test_project/project/bin/grpc_sender -D -s 192.168.5.208:50051 -f /home/admin/grpc_test_project/project/bin/test.txt,/home/admin/grpc_test_project/project/bin/test1.txt -v 1 -c 2 -l3 -o /tmp'.</msg>
+<msg timestamp="20230926 19:15:50.064" level="INFO">Command exited with return code 0.</msg>
+<msg timestamp="20230926 19:15:50.064" level="INFO">${stdout} = 2023-09-26 19:15:50 [INFO] Buffer chunk size is set with default to: 2MB
+2023-09-26 19:15:50 [INFO] GRPC destination pod service is: 192.168.5.208:50051
+2023-09-26 19:15:50 [INFO] Output Path: /tmp
+20...</msg>
+<status status="PASS" starttime="20230926 19:15:49.979" endtime="20230926 19:15:50.064"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${stdout}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:15:50.064" endtime="20230926 19:15:50.065"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${stdout}</arg>
+<arg>Files ${result} transfer succeeded.</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20230926 19:15:50.065" endtime="20230926 19:15:50.065"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:49.978" endtime="20230926 19:15:50.065"/>
+</iter>
+<status status="PASS" starttime="20230926 19:15:49.977" endtime="20230926 19:15:50.065"/>
+</for>
+<msg timestamp="20230926 19:15:50.065" level="INFO">${snd_result} = None</msg>
+<status status="PASS" starttime="20230926 19:15:48.784" endtime="20230926 19:15:50.065"/>
+</kw>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${reciver.host}</arg>
+<arg>${reciver.user}</arg>
+<arg>${reciver.pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:15:50.070" endtime="20230926 19:15:50.071"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:15:50.071" level="INFO">Logging into '192.168.5.208:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:15:51.265" level="INFO">Read output: Activate the web console with: systemctl enable --now cockpit.socket
+
+Last login: Tue Sep 26 19:15:43 2023 from 192.168.5.139
+[admin@GRPC-Client ~]$</msg>
+<status status="PASS" starttime="20230926 19:15:50.071" endtime="20230926 19:15:51.265"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:50.069" endtime="20230926 19:15:51.265"/>
+</kw>
+<kw name="List Directory" library="SSHLibrary">
+<var>${open_home}</var>
+<arg>${reciver.bin_dir}</arg>
+<doc>Returns and logs items in the remote ``path``, optionally filtered with ``pattern``.</doc>
+<msg timestamp="20230926 19:15:51.341" level="INFO">[chan 1] Opened sftp connection (server version 3)</msg>
+<msg timestamp="20230926 19:15:51.348" level="INFO">5 items:
+grpc-chunk-4KB.pcap
+grpc_receiver
+grpc_sender
+man.lock
+test2se.txt</msg>
+<msg timestamp="20230926 19:15:51.349" level="INFO">${open_home} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:15:51.275" endtime="20230926 19:15:51.349"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:43.547" endtime="20230926 19:15:51.349"/>
+</test>
+<test id="s1-t4" name="Testcase4" line="44">
+<kw name="Reciver command" library="grpc_keywords">
+<var>${rec_res}</var>
+<arg>${reciver.host}</arg>
+<arg>${reciver.user}</arg>
+<arg>${reciver.pwd}</arg>
+<arg>${reciver.bin_dir}/${reciver.receiver_compress_disabled}</arg>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${host}</arg>
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:15:51.352" endtime="20230926 19:15:51.352"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:15:51.352" level="INFO">Logging into '192.168.5.208:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:15:52.524" level="INFO">Read output: Activate the web console with: systemctl enable --now cockpit.socket
+
+Last login: Tue Sep 26 19:15:50 2023 from 192.168.5.139
+[admin@GRPC-Client ~]$</msg>
+<status status="PASS" starttime="20230926 19:15:51.352" endtime="20230926 19:15:52.524"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:51.351" endtime="20230926 19:15:52.524"/>
+</kw>
+<kw name="Write" library="SSHLibrary">
+<arg>cd ${reciver.bin_dir}</arg>
+<doc>Writes the given ``text`` on the remote machine and appends a newline.</doc>
+<msg timestamp="20230926 19:15:52.531" level="INFO">cd /home/admin/grpc_test_project/project/bin</msg>
+<status status="PASS" starttime="20230926 19:15:52.524" endtime="20230926 19:15:52.531"/>
+</kw>
+<kw name="Write" library="SSHLibrary">
+<arg>${cmd}</arg>
+<doc>Writes the given ``text`` on the remote machine and appends a newline.</doc>
+<msg timestamp="20230926 19:15:52.533" level="INFO">[admin@GRPC-Client bin]$ /home/admin/grpc_test_project/project/bin/grpc_receiver  -D -d .</msg>
+<status status="PASS" starttime="20230926 19:15:52.531" endtime="20230926 19:15:52.533"/>
+</kw>
+<kw name="Read" library="SSHLibrary">
+<var>${output}</var>
+<arg>delay=2s</arg>
+<doc>Consumes and returns everything available on the server output.</doc>
+<msg timestamp="20230926 19:15:56.535" level="INFO">2023-09-26 19:15:52 [TRACE] log level is set to trace
+2023-09-26 19:15:52 [INFO] default receiving path is: .
+2023-09-26 19:15:52 [INFO] Starting GRPC Receiver...
+2023-09-26 19:15:52 [ERROR] Port 50051 is already in use
+2023-09-26 19:15:52 [ERROR] Port occupation detected. Exiting...
+[admin@GRPC-Client bin]$</msg>
+<msg timestamp="20230926 19:15:56.535" level="INFO">${output} = 2023-09-26 19:15:52 [TRACE] log level is set to trace
+2023-09-26 19:15:52 [INFO] default receiving path is: .
+2023-09-26 19:15:52 [INFO] Starting GRPC Receiver...
+2023-09-26 19:15:52 [ERROR] Port 5...</msg>
+<status status="PASS" starttime="20230926 19:15:52.533" endtime="20230926 19:15:56.535"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${output}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:15:56.535" endtime="20230926 19:15:56.535"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>*********${cmd}***********</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:15:56.535" endtime="20230926 19:15:56.538"/>
+</kw>
+<kw name="List Directory" library="SSHLibrary">
+<var>${open_home}</var>
+<arg>${reciver.bin_dir}</arg>
+<doc>Returns and logs items in the remote ``path``, optionally filtered with ``pattern``.</doc>
+<msg timestamp="20230926 19:15:56.588" level="INFO">[chan 1] Opened sftp connection (server version 3)</msg>
+<msg timestamp="20230926 19:15:56.591" level="INFO">5 items:
+grpc-chunk-4KB.pcap
+grpc_receiver
+grpc_sender
+man.lock
+test2se.txt</msg>
+<msg timestamp="20230926 19:15:56.592" level="INFO">${open_home} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:15:56.538" endtime="20230926 19:15:56.592"/>
+</kw>
+<msg timestamp="20230926 19:15:56.592" level="INFO">${rec_res} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:15:51.350" endtime="20230926 19:15:56.592"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${rec_res}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:15:56.592" endtime="20230926 19:15:56.592"/>
+</kw>
+<kw name="Sender command unspecifed path" library="grpc_keywords">
+<var>${snd_result}</var>
+<arg>${sender.host}</arg>
+<arg>${sender.user}</arg>
+<arg>${sender.pwd}</arg>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${host}</arg>
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:15:56.594" endtime="20230926 19:15:56.594"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:15:56.594" level="INFO">Logging into '192.168.5.210:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:15:57.790" level="INFO">Read output: Web console: https://GRPC-Server.myguest2.virtualbox.org:9090/ or https://192.168.5.210:9090/
+
+Last login: Tue Sep 26 19:15:48 2023 from 192.168.5.139
+[admin@GRPC-Server ~]$</msg>
+<status status="PASS" starttime="20230926 19:15:56.594" endtime="20230926 19:15:57.790"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:56.594" endtime="20230926 19:15:57.790"/>
+</kw>
+<for flavor="IN">
+<var>${element}</var>
+<value>@{sender.senders_ip}</value>
+<iter>
+<var name="${element}">192.168.5.208:50051</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${sender.bin_dir}/grpc_sender -D -s ${element} -f ${sender.bin_dir}/${sender.file_name} -v 1 -b 1MB</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:15:57.790" endtime="20230926 19:15:57.792"/>
+</kw>
+<kw name="Execute Command" library="SSHLibrary">
+<var>${stdout}</var>
+<arg>${sender.bin_dir}/grpc_sender -D -s ${element} -f ${sender.bin_dir}/${sender.file_name} -v 1 -b 1MB</arg>
+<arg>return_stdout=False</arg>
+<arg>return_stdout=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<msg timestamp="20230926 19:15:57.793" level="INFO">Executing command '/home/admin/grpc_test_project/project/bin/grpc_sender -D -s 192.168.5.208:50051 -f /home/admin/grpc_test_project/project/bin/test.txt -v 1 -b 1MB'.</msg>
+<msg timestamp="20230926 19:15:57.873" level="INFO">Command exited with return code 0.</msg>
+<msg timestamp="20230926 19:15:57.873" level="INFO">${stdout} = 2023-09-26 19:15:57 [INFO] Buffer chunk size is set to: 1MB
+2023-09-26 19:15:57 [INFO] GRPC destination pod service is: 192.168.5.208:50051
+2023-09-26 19:15:57 [INFO] Checksum validation is set to: md...</msg>
+<status status="PASS" starttime="20230926 19:15:57.792" endtime="20230926 19:15:57.873"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${stdout}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:15:57.873" endtime="20230926 19:15:57.873"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${stdout}</arg>
+<arg>File ${sender.bin_dir}/${sender.file_name} transfer succeeded.</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20230926 19:15:57.873" endtime="20230926 19:15:57.874"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:57.790" endtime="20230926 19:15:57.874"/>
+</iter>
+<status status="PASS" starttime="20230926 19:15:57.790" endtime="20230926 19:15:57.874"/>
+</for>
+<msg timestamp="20230926 19:15:57.874" level="INFO">${snd_result} = None</msg>
+<status status="PASS" starttime="20230926 19:15:56.593" endtime="20230926 19:15:57.874"/>
+</kw>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${reciver.host}</arg>
+<arg>${reciver.user}</arg>
+<arg>${reciver.pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:15:57.879" endtime="20230926 19:15:57.879"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:15:57.880" level="INFO">Logging into '192.168.5.208:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:15:59.067" level="INFO">Read output: Activate the web console with: systemctl enable --now cockpit.socket
+
+Last login: Tue Sep 26 19:15:51 2023 from 192.168.5.139
+[admin@GRPC-Client ~]$</msg>
+<status status="PASS" starttime="20230926 19:15:57.879" endtime="20230926 19:15:59.067"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:57.878" endtime="20230926 19:15:59.067"/>
+</kw>
+<kw name="List Directory" library="SSHLibrary">
+<var>${open_home}</var>
+<arg>${reciver.bin_dir}</arg>
+<doc>Returns and logs items in the remote ``path``, optionally filtered with ``pattern``.</doc>
+<msg timestamp="20230926 19:15:59.115" level="INFO">[chan 1] Opened sftp connection (server version 3)</msg>
+<msg timestamp="20230926 19:15:59.119" level="INFO">5 items:
+grpc-chunk-4KB.pcap
+grpc_receiver
+grpc_sender
+man.lock
+test2se.txt</msg>
+<msg timestamp="20230926 19:15:59.119" level="INFO">${open_home} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:15:59.068" endtime="20230926 19:15:59.119"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${open_home}</arg>
+<arg>${sender.file_name}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<msg timestamp="20230926 19:15:59.120" level="FAIL">'['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']' does not contain 'test.txt'</msg>
+<status status="FAIL" starttime="20230926 19:15:59.120" endtime="20230926 19:15:59.120"/>
+</kw>
+<status status="FAIL" starttime="20230926 19:15:51.350" endtime="20230926 19:15:59.121">'['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']' does not contain 'test.txt'</status>
+</test>
+<test id="s1-t5" name="Testcase5" line="54">
+<kw name="Reciver command" library="grpc_keywords">
+<var>${rec_res}</var>
+<arg>${reciver.host}</arg>
+<arg>${reciver.user}</arg>
+<arg>${reciver.pwd}</arg>
+<arg>${reciver.bin_dir}/${reciver.gprc_rec_path_cmd}</arg>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${host}</arg>
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:15:59.123" endtime="20230926 19:15:59.123"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:15:59.124" level="INFO">Logging into '192.168.5.208:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:16:00.294" level="INFO">Read output: Activate the web console with: systemctl enable --now cockpit.socket
+
+Last login: Tue Sep 26 19:15:58 2023 from 192.168.5.139
+[admin@GRPC-Client ~]$</msg>
+<status status="PASS" starttime="20230926 19:15:59.123" endtime="20230926 19:16:00.294"/>
+</kw>
+<status status="PASS" starttime="20230926 19:15:59.123" endtime="20230926 19:16:00.294"/>
+</kw>
+<kw name="Write" library="SSHLibrary">
+<arg>cd ${reciver.bin_dir}</arg>
+<doc>Writes the given ``text`` on the remote machine and appends a newline.</doc>
+<msg timestamp="20230926 19:16:00.296" level="INFO">cd /home/admin/grpc_test_project/project/bin</msg>
+<status status="PASS" starttime="20230926 19:16:00.294" endtime="20230926 19:16:00.296"/>
+</kw>
+<kw name="Write" library="SSHLibrary">
+<arg>${cmd}</arg>
+<doc>Writes the given ``text`` on the remote machine and appends a newline.</doc>
+<msg timestamp="20230926 19:16:00.298" level="INFO">[admin@GRPC-Client bin]$ /home/admin/grpc_test_project/project/bin/grpc_receiver  -c 1 -l 3 –D -d .</msg>
+<status status="PASS" starttime="20230926 19:16:00.296" endtime="20230926 19:16:00.298"/>
+</kw>
+<kw name="Read" library="SSHLibrary">
+<var>${output}</var>
+<arg>delay=2s</arg>
+<doc>Consumes and returns everything available on the server output.</doc>
+<msg timestamp="20230926 19:16:04.300" level="INFO">2023-09-26 19:16:00 [INFO] default receiving path is: .
+2023-09-26 19:16:00 [INFO] Starting GRPC Receiver...
+2023-09-26 19:16:00 [ERROR] Port 50051 is already in use
+2023-09-26 19:16:00 [ERROR] Port occupation detected. Exiting...
+[admin@GRPC-Client bin]$</msg>
+<msg timestamp="20230926 19:16:04.300" level="INFO">${output} = 2023-09-26 19:16:00 [INFO] default receiving path is: .
+2023-09-26 19:16:00 [INFO] Starting GRPC Receiver...
+2023-09-26 19:16:00 [ERROR] Port 50051 is already in use
+2023-09-26 19:16:00 [ERROR] Por...</msg>
+<status status="PASS" starttime="20230926 19:16:00.298" endtime="20230926 19:16:04.300"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${output}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:16:04.300" endtime="20230926 19:16:04.300"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>*********${cmd}***********</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:16:04.301" endtime="20230926 19:16:04.303"/>
+</kw>
+<kw name="List Directory" library="SSHLibrary">
+<var>${open_home}</var>
+<arg>${reciver.bin_dir}</arg>
+<doc>Returns and logs items in the remote ``path``, optionally filtered with ``pattern``.</doc>
+<msg timestamp="20230926 19:16:04.356" level="INFO">[chan 1] Opened sftp connection (server version 3)</msg>
+<msg timestamp="20230926 19:16:04.360" level="INFO">5 items:
+grpc-chunk-4KB.pcap
+grpc_receiver
+grpc_sender
+man.lock
+test2se.txt</msg>
+<msg timestamp="20230926 19:16:04.361" level="INFO">${open_home} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:16:04.303" endtime="20230926 19:16:04.361"/>
+</kw>
+<msg timestamp="20230926 19:16:04.361" level="INFO">${rec_res} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:15:59.123" endtime="20230926 19:16:04.361"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${rec_res}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:16:04.361" endtime="20230926 19:16:04.362"/>
+</kw>
+<kw name="Receiver compress enabled" library="grpc_keywords">
+<var>${snd_result}</var>
+<arg>${sender.host}</arg>
+<arg>${sender.user}</arg>
+<arg>${sender.pwd}</arg>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${host}</arg>
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:16:04.363" endtime="20230926 19:16:04.364"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:16:04.364" level="INFO">Logging into '192.168.5.210:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:16:05.541" level="INFO">Read output: Web console: https://GRPC-Server.myguest2.virtualbox.org:9090/ or https://192.168.5.210:9090/
+
+Last login: Tue Sep 26 19:15:56 2023 from 192.168.5.139
+[admin@GRPC-Server ~]$</msg>
+<status status="PASS" starttime="20230926 19:16:04.364" endtime="20230926 19:16:05.541"/>
+</kw>
+<status status="PASS" starttime="20230926 19:16:04.363" endtime="20230926 19:16:05.541"/>
+</kw>
+<for flavor="IN">
+<var>${element}</var>
+<value>@{sender.senders_ip}</value>
+<iter>
+<var name="${element}">192.168.5.208:50051</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${sender.bin_dir}/grpc_sender -D -s ${element} -f ${sender.bin_dir}/${sender.file_name} -v 1 -c 2 -l3 -o ${sender.target_path}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:16:05.542" endtime="20230926 19:16:05.544"/>
+</kw>
+<kw name="Execute Command" library="SSHLibrary">
+<var>${stdout}</var>
+<arg>${sender.bin_dir}/grpc_sender -D -s ${element} -f ${sender.bin_dir}/${sender.file_name} -v 1 -c 2 -l3 -o ${sender.target_path}</arg>
+<arg>return_stdout=False</arg>
+<arg>return_stdout=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<msg timestamp="20230926 19:16:05.545" level="INFO">Executing command '/home/admin/grpc_test_project/project/bin/grpc_sender -D -s 192.168.5.208:50051 -f /home/admin/grpc_test_project/project/bin/test.txt -v 1 -c 2 -l3 -o /tmp'.</msg>
+<msg timestamp="20230926 19:16:05.593" level="INFO">Command exited with return code 0.</msg>
+<msg timestamp="20230926 19:16:05.593" level="INFO">${stdout} = 2023-09-26 19:16:05 [INFO] Buffer chunk size is set with default to: 2MB
+2023-09-26 19:16:05 [INFO] GRPC destination pod service is: 192.168.5.208:50051
+2023-09-26 19:16:05 [INFO] Output Path: /tmp
+20...</msg>
+<status status="PASS" starttime="20230926 19:16:05.544" endtime="20230926 19:16:05.593"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${stdout}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:16:05.593" endtime="20230926 19:16:05.593"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${stdout}</arg>
+<arg>File ${sender.bin_dir}/${sender.file_name} transfer succeeded.</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20230926 19:16:05.593" endtime="20230926 19:16:05.594"/>
+</kw>
+<status status="PASS" starttime="20230926 19:16:05.542" endtime="20230926 19:16:05.594"/>
+</iter>
+<status status="PASS" starttime="20230926 19:16:05.541" endtime="20230926 19:16:05.594"/>
+</for>
+<msg timestamp="20230926 19:16:05.594" level="INFO">${snd_result} = None</msg>
+<status status="PASS" starttime="20230926 19:16:04.362" endtime="20230926 19:16:05.594"/>
+</kw>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${reciver.host}</arg>
+<arg>${reciver.user}</arg>
+<arg>${reciver.pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:16:05.598" endtime="20230926 19:16:05.598"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:16:05.598" level="INFO">Logging into '192.168.5.208:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:16:06.787" level="INFO">Read output: Activate the web console with: systemctl enable --now cockpit.socket
+
+Last login: Tue Sep 26 19:15:59 2023 from 192.168.5.139
+[admin@GRPC-Client ~]$</msg>
+<status status="PASS" starttime="20230926 19:16:05.598" endtime="20230926 19:16:06.787"/>
+</kw>
+<status status="PASS" starttime="20230926 19:16:05.597" endtime="20230926 19:16:06.787"/>
+</kw>
+<kw name="List Directory" library="SSHLibrary">
+<var>${open_home}</var>
+<arg>${reciver.bin_dir}</arg>
+<doc>Returns and logs items in the remote ``path``, optionally filtered with ``pattern``.</doc>
+<msg timestamp="20230926 19:16:06.836" level="INFO">[chan 1] Opened sftp connection (server version 3)</msg>
+<msg timestamp="20230926 19:16:06.841" level="INFO">5 items:
+grpc-chunk-4KB.pcap
+grpc_receiver
+grpc_sender
+man.lock
+test2se.txt</msg>
+<msg timestamp="20230926 19:16:06.841" level="INFO">${open_home} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:16:06.788" endtime="20230926 19:16:06.841"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${open_home}</arg>
+<arg>${sender.file_name}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<msg timestamp="20230926 19:16:06.842" level="FAIL">'['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']' does not contain 'test.txt'</msg>
+<status status="FAIL" starttime="20230926 19:16:06.842" endtime="20230926 19:16:06.842"/>
+</kw>
+<status status="FAIL" starttime="20230926 19:15:59.122" endtime="20230926 19:16:06.843">'['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']' does not contain 'test.txt'</status>
+</test>
+<test id="s1-t6" name="Testcase6" line="64">
+<kw name="Reciver command" library="grpc_keywords">
+<var>${rec_res}</var>
+<arg>${reciver.host}</arg>
+<arg>${reciver.user}</arg>
+<arg>${reciver.pwd}</arg>
+<arg>${reciver.bin_dir}/${reciver.gprc_rec_path_cmd}</arg>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${host}</arg>
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:16:06.846" endtime="20230926 19:16:06.846"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:16:06.846" level="INFO">Logging into '192.168.5.208:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:16:08.020" level="INFO">Read output: Activate the web console with: systemctl enable --now cockpit.socket
+
+Last login: Tue Sep 26 19:16:05 2023 from 192.168.5.139
+[admin@GRPC-Client ~]$</msg>
+<status status="PASS" starttime="20230926 19:16:06.846" endtime="20230926 19:16:08.020"/>
+</kw>
+<status status="PASS" starttime="20230926 19:16:06.845" endtime="20230926 19:16:08.020"/>
+</kw>
+<kw name="Write" library="SSHLibrary">
+<arg>cd ${reciver.bin_dir}</arg>
+<doc>Writes the given ``text`` on the remote machine and appends a newline.</doc>
+<msg timestamp="20230926 19:16:08.023" level="INFO">cd /home/admin/grpc_test_project/project/bin</msg>
+<status status="PASS" starttime="20230926 19:16:08.020" endtime="20230926 19:16:08.023"/>
+</kw>
+<kw name="Write" library="SSHLibrary">
+<arg>${cmd}</arg>
+<doc>Writes the given ``text`` on the remote machine and appends a newline.</doc>
+<msg timestamp="20230926 19:16:08.025" level="INFO">[admin@GRPC-Client bin]$ /home/admin/grpc_test_project/project/bin/grpc_receiver  -c 1 -l 3 –D -d .</msg>
+<status status="PASS" starttime="20230926 19:16:08.023" endtime="20230926 19:16:08.025"/>
+</kw>
+<kw name="Read" library="SSHLibrary">
+<var>${output}</var>
+<arg>delay=2s</arg>
+<doc>Consumes and returns everything available on the server output.</doc>
+<msg timestamp="20230926 19:16:12.027" level="INFO">2023-09-26 19:16:08 [INFO] default receiving path is: .
+2023-09-26 19:16:08 [INFO] Starting GRPC Receiver...
+2023-09-26 19:16:08 [ERROR] Port 50051 is already in use
+2023-09-26 19:16:08 [ERROR] Port occupation detected. Exiting...
+[admin@GRPC-Client bin]$</msg>
+<msg timestamp="20230926 19:16:12.027" level="INFO">${output} = 2023-09-26 19:16:08 [INFO] default receiving path is: .
+2023-09-26 19:16:08 [INFO] Starting GRPC Receiver...
+2023-09-26 19:16:08 [ERROR] Port 50051 is already in use
+2023-09-26 19:16:08 [ERROR] Por...</msg>
+<status status="PASS" starttime="20230926 19:16:08.026" endtime="20230926 19:16:12.027"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${output}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:16:12.027" endtime="20230926 19:16:12.027"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>*********${cmd}***********</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:16:12.027" endtime="20230926 19:16:12.029"/>
+</kw>
+<kw name="List Directory" library="SSHLibrary">
+<var>${open_home}</var>
+<arg>${reciver.bin_dir}</arg>
+<doc>Returns and logs items in the remote ``path``, optionally filtered with ``pattern``.</doc>
+<msg timestamp="20230926 19:16:12.071" level="INFO">[chan 1] Opened sftp connection (server version 3)</msg>
+<msg timestamp="20230926 19:16:12.079" level="INFO">5 items:
+grpc-chunk-4KB.pcap
+grpc_receiver
+grpc_sender
+man.lock
+test2se.txt</msg>
+<msg timestamp="20230926 19:16:12.079" level="INFO">${open_home} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:16:12.029" endtime="20230926 19:16:12.079"/>
+</kw>
+<msg timestamp="20230926 19:16:12.079" level="INFO">${rec_res} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:16:06.844" endtime="20230926 19:16:12.079"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${rec_res}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:16:12.080" endtime="20230926 19:16:12.080"/>
+</kw>
+<kw name="Sender CheckSum OFF" library="grpc_keywords">
+<var>${snd_result}</var>
+<arg>${sender.host}</arg>
+<arg>${sender.user}</arg>
+<arg>${sender.pwd}</arg>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${host}</arg>
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:16:12.082" endtime="20230926 19:16:12.082"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:16:12.083" level="INFO">Logging into '192.168.5.210:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:16:13.276" level="INFO">Read output: Web console: https://GRPC-Server.myguest2.virtualbox.org:9090/ or https://192.168.5.210:9090/
+
+Last login: Tue Sep 26 19:16:04 2023 from 192.168.5.139
+[admin@GRPC-Server ~]$</msg>
+<status status="PASS" starttime="20230926 19:16:12.082" endtime="20230926 19:16:13.276"/>
+</kw>
+<status status="PASS" starttime="20230926 19:16:12.082" endtime="20230926 19:16:13.276"/>
+</kw>
+<for flavor="IN">
+<var>${element}</var>
+<value>@{sender.senders_ip}</value>
+<iter>
+<var name="${element}">192.168.5.208:50051</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${sender.bin_dir}/grpc_sender -D -s ${element} -f ${sender.bin_dir}/${sender.file_name} -v 0 -b 10KB</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:16:13.276" endtime="20230926 19:16:13.277"/>
+</kw>
+<kw name="Execute Command" library="SSHLibrary">
+<var>${stdout}</var>
+<arg>${sender.bin_dir}/grpc_sender -D -s ${element} -f ${sender.bin_dir}/${sender.file_name} -v 0 -b 10KB</arg>
+<arg>return_stdout=False</arg>
+<arg>return_stdout=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<msg timestamp="20230926 19:16:13.278" level="INFO">Executing command '/home/admin/grpc_test_project/project/bin/grpc_sender -D -s 192.168.5.208:50051 -f /home/admin/grpc_test_project/project/bin/test.txt -v 0 -b 10KB'.</msg>
+<msg timestamp="20230926 19:16:13.336" level="INFO">Command exited with return code 0.</msg>
+<msg timestamp="20230926 19:16:13.336" level="INFO">${stdout} = 2023-09-26 19:16:13 [INFO] Buffer chunk size is set to: 10KB
+2023-09-26 19:16:13 [INFO] GRPC destination pod service is: 192.168.5.208:50051
+2023-09-26 19:16:13 [INFO] Checksum validation is set to: o...</msg>
+<status status="PASS" starttime="20230926 19:16:13.277" endtime="20230926 19:16:13.336"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${stdout}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:16:13.336" endtime="20230926 19:16:13.337"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${stdout}</arg>
+<arg>checksum algorithm: 0</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20230926 19:16:13.337" endtime="20230926 19:16:13.337"/>
+</kw>
+<status status="PASS" starttime="20230926 19:16:13.276" endtime="20230926 19:16:13.337"/>
+</iter>
+<status status="PASS" starttime="20230926 19:16:13.276" endtime="20230926 19:16:13.337"/>
+</for>
+<msg timestamp="20230926 19:16:13.337" level="INFO">${snd_result} = None</msg>
+<status status="PASS" starttime="20230926 19:16:12.081" endtime="20230926 19:16:13.337"/>
+</kw>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${reciver.host}</arg>
+<arg>${reciver.user}</arg>
+<arg>${reciver.pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:16:13.341" endtime="20230926 19:16:13.341"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:16:13.341" level="INFO">Logging into '192.168.5.208:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:16:14.513" level="INFO">Read output: Activate the web console with: systemctl enable --now cockpit.socket
+
+Last login: Tue Sep 26 19:16:06 2023 from 192.168.5.139
+[admin@GRPC-Client ~]$</msg>
+<status status="PASS" starttime="20230926 19:16:13.341" endtime="20230926 19:16:14.513"/>
+</kw>
+<status status="PASS" starttime="20230926 19:16:13.340" endtime="20230926 19:16:14.513"/>
+</kw>
+<kw name="List Directory" library="SSHLibrary">
+<var>${open_home}</var>
+<arg>${reciver.bin_dir}</arg>
+<doc>Returns and logs items in the remote ``path``, optionally filtered with ``pattern``.</doc>
+<msg timestamp="20230926 19:16:14.556" level="INFO">[chan 1] Opened sftp connection (server version 3)</msg>
+<msg timestamp="20230926 19:16:14.563" level="INFO">5 items:
+grpc-chunk-4KB.pcap
+grpc_receiver
+grpc_sender
+man.lock
+test2se.txt</msg>
+<msg timestamp="20230926 19:16:14.563" level="INFO">${open_home} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:16:14.514" endtime="20230926 19:16:14.563"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${open_home}</arg>
+<arg>${sender.file_name}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<msg timestamp="20230926 19:16:14.565" level="FAIL">'['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']' does not contain 'test.txt'</msg>
+<status status="FAIL" starttime="20230926 19:16:14.564" endtime="20230926 19:16:14.565"/>
+</kw>
+<status status="FAIL" starttime="20230926 19:16:06.844" endtime="20230926 19:16:14.568">'['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']' does not contain 'test.txt'</status>
+</test>
+<test id="s1-t7" name="Testcase7" line="74">
+<kw name="Reciver command" library="grpc_keywords">
+<var>${rec_res}</var>
+<arg>${reciver.host}</arg>
+<arg>${reciver.user}</arg>
+<arg>${reciver.pwd}</arg>
+<arg>${reciver.bin_dir}/${reciver.gprc_rec_path_cmd}</arg>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${host}</arg>
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:16:14.572" endtime="20230926 19:16:14.572"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:16:14.572" level="INFO">Logging into '192.168.5.208:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:16:15.745" level="INFO">Read output: Activate the web console with: systemctl enable --now cockpit.socket
+
+Last login: Tue Sep 26 19:16:13 2023 from 192.168.5.139
+[admin@GRPC-Client ~]$</msg>
+<status status="PASS" starttime="20230926 19:16:14.572" endtime="20230926 19:16:15.745"/>
+</kw>
+<status status="PASS" starttime="20230926 19:16:14.572" endtime="20230926 19:16:15.745"/>
+</kw>
+<kw name="Write" library="SSHLibrary">
+<arg>cd ${reciver.bin_dir}</arg>
+<doc>Writes the given ``text`` on the remote machine and appends a newline.</doc>
+<msg timestamp="20230926 19:16:15.748" level="INFO">cd /home/admin/grpc_test_project/project/bin</msg>
+<status status="PASS" starttime="20230926 19:16:15.745" endtime="20230926 19:16:15.748"/>
+</kw>
+<kw name="Write" library="SSHLibrary">
+<arg>${cmd}</arg>
+<doc>Writes the given ``text`` on the remote machine and appends a newline.</doc>
+<msg timestamp="20230926 19:16:15.750" level="INFO">[admin@GRPC-Client bin]$ /home/admin/grpc_test_project/project/bin/grpc_receiver  -c 1 -l 3 –D -d .</msg>
+<status status="PASS" starttime="20230926 19:16:15.748" endtime="20230926 19:16:15.750"/>
+</kw>
+<kw name="Read" library="SSHLibrary">
+<var>${output}</var>
+<arg>delay=2s</arg>
+<doc>Consumes and returns everything available on the server output.</doc>
+<msg timestamp="20230926 19:16:19.751" level="INFO">2023-09-26 19:16:15 [INFO] default receiving path is: .
+2023-09-26 19:16:15 [INFO] Starting GRPC Receiver...
+2023-09-26 19:16:15 [ERROR] Port 50051 is already in use
+2023-09-26 19:16:15 [ERROR] Port occupation detected. Exiting...
+[admin@GRPC-Client bin]$</msg>
+<msg timestamp="20230926 19:16:19.751" level="INFO">${output} = 2023-09-26 19:16:15 [INFO] default receiving path is: .
+2023-09-26 19:16:15 [INFO] Starting GRPC Receiver...
+2023-09-26 19:16:15 [ERROR] Port 50051 is already in use
+2023-09-26 19:16:15 [ERROR] Por...</msg>
+<status status="PASS" starttime="20230926 19:16:15.750" endtime="20230926 19:16:19.751"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${output}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:16:19.751" endtime="20230926 19:16:19.752"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>*********${cmd}***********</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:16:19.752" endtime="20230926 19:16:19.755"/>
+</kw>
+<kw name="List Directory" library="SSHLibrary">
+<var>${open_home}</var>
+<arg>${reciver.bin_dir}</arg>
+<doc>Returns and logs items in the remote ``path``, optionally filtered with ``pattern``.</doc>
+<msg timestamp="20230926 19:16:19.804" level="INFO">[chan 1] Opened sftp connection (server version 3)</msg>
+<msg timestamp="20230926 19:16:19.809" level="INFO">5 items:
+grpc-chunk-4KB.pcap
+grpc_receiver
+grpc_sender
+man.lock
+test2se.txt</msg>
+<msg timestamp="20230926 19:16:19.809" level="INFO">${open_home} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:16:19.755" endtime="20230926 19:16:19.809"/>
+</kw>
+<msg timestamp="20230926 19:16:19.809" level="INFO">${rec_res} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:16:14.570" endtime="20230926 19:16:19.809"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${rec_res}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:16:19.810" endtime="20230926 19:16:19.810"/>
+</kw>
+<kw name="Sender CheckSum ON" library="grpc_keywords">
+<var>${snd_result}</var>
+<arg>${sender.host}</arg>
+<arg>${sender.user}</arg>
+<arg>${sender.pwd}</arg>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${host}</arg>
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:16:19.812" endtime="20230926 19:16:19.812"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:16:19.812" level="INFO">Logging into '192.168.5.210:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:16:21.015" level="INFO">Read output: Web console: https://GRPC-Server.myguest2.virtualbox.org:9090/ or https://192.168.5.210:9090/
+
+Last login: Tue Sep 26 19:16:12 2023 from 192.168.5.139
+[admin@GRPC-Server ~]$</msg>
+<status status="PASS" starttime="20230926 19:16:19.812" endtime="20230926 19:16:21.015"/>
+</kw>
+<status status="PASS" starttime="20230926 19:16:19.812" endtime="20230926 19:16:21.015"/>
+</kw>
+<for flavor="IN">
+<var>${element}</var>
+<value>@{sender.senders_ip}</value>
+<iter>
+<var name="${element}">192.168.5.208:50051</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${sender.bin_dir}/grpc_sender -D -s ${element} -f ${sender.bin_dir}/${sender.file_name} -v 1 -b 20KB</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:16:21.016" endtime="20230926 19:16:21.017"/>
+</kw>
+<kw name="Execute Command" library="SSHLibrary">
+<var>${stdout}</var>
+<arg>${sender.bin_dir}/grpc_sender -D -s ${element} -f ${sender.bin_dir}/${sender.file_name} -v 1 -b 20KB</arg>
+<arg>return_stdout=False</arg>
+<arg>return_stdout=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<msg timestamp="20230926 19:16:21.018" level="INFO">Executing command '/home/admin/grpc_test_project/project/bin/grpc_sender -D -s 192.168.5.208:50051 -f /home/admin/grpc_test_project/project/bin/test.txt -v 1 -b 20KB'.</msg>
+<msg timestamp="20230926 19:16:21.077" level="INFO">Command exited with return code 0.</msg>
+<msg timestamp="20230926 19:16:21.077" level="INFO">${stdout} = 2023-09-26 19:16:21 [INFO] Buffer chunk size is set to: 20KB
+2023-09-26 19:16:21 [INFO] GRPC destination pod service is: 192.168.5.208:50051
+2023-09-26 19:16:21 [INFO] Checksum validation is set to: m...</msg>
+<status status="PASS" starttime="20230926 19:16:21.017" endtime="20230926 19:16:21.077"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${stdout}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230926 19:16:21.077" endtime="20230926 19:16:21.077"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${stdout}</arg>
+<arg>checksum algorithm: 1</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20230926 19:16:21.078" endtime="20230926 19:16:21.078"/>
+</kw>
+<status status="PASS" starttime="20230926 19:16:21.016" endtime="20230926 19:16:21.078"/>
+</iter>
+<status status="PASS" starttime="20230926 19:16:21.015" endtime="20230926 19:16:21.078"/>
+</for>
+<msg timestamp="20230926 19:16:21.078" level="INFO">${snd_result} = None</msg>
+<status status="PASS" starttime="20230926 19:16:19.811" endtime="20230926 19:16:21.078"/>
+</kw>
+<kw name="Establish SSH Connection" library="grpc_keywords">
+<arg>${reciver.host}</arg>
+<arg>${reciver.user}</arg>
+<arg>${reciver.pwd}</arg>
+<kw name="Open Connection" library="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" starttime="20230926 19:16:21.082" endtime="20230926 19:16:21.082"/>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<arg>${user}</arg>
+<arg>${pwd}</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<msg timestamp="20230926 19:16:21.082" level="INFO">Logging into '192.168.5.208:22' as 'admin'.</msg>
+<msg timestamp="20230926 19:16:22.267" level="INFO">Read output: Activate the web console with: systemctl enable --now cockpit.socket
+
+Last login: Tue Sep 26 19:16:14 2023 from 192.168.5.139
+[admin@GRPC-Client ~]$</msg>
+<status status="PASS" starttime="20230926 19:16:21.082" endtime="20230926 19:16:22.267"/>
+</kw>
+<status status="PASS" starttime="20230926 19:16:21.080" endtime="20230926 19:16:22.267"/>
+</kw>
+<kw name="List Directory" library="SSHLibrary">
+<var>${open_home}</var>
+<arg>${reciver.bin_dir}</arg>
+<doc>Returns and logs items in the remote ``path``, optionally filtered with ``pattern``.</doc>
+<msg timestamp="20230926 19:16:22.315" level="INFO">[chan 1] Opened sftp connection (server version 3)</msg>
+<msg timestamp="20230926 19:16:22.319" level="INFO">5 items:
+grpc-chunk-4KB.pcap
+grpc_receiver
+grpc_sender
+man.lock
+test2se.txt</msg>
+<msg timestamp="20230926 19:16:22.319" level="INFO">${open_home} = ['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']</msg>
+<status status="PASS" starttime="20230926 19:16:22.268" endtime="20230926 19:16:22.319"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${open_home}</arg>
+<arg>${sender.file_name}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<msg timestamp="20230926 19:16:22.320" level="FAIL">'['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']' does not contain 'test.txt'</msg>
+<status status="FAIL" starttime="20230926 19:16:22.320" endtime="20230926 19:16:22.320"/>
+</kw>
+<status status="FAIL" starttime="20230926 19:16:14.570" endtime="20230926 19:16:22.320">'['grpc-chunk-4KB.pcap', 'grpc_receiver', 'grpc_sender', 'man.lock', 'test2se.txt']' does not contain 'test.txt'</status>
+</test>
+<status status="FAIL" starttime="20230926 19:15:27.911" endtime="20230926 19:16:22.322"/>
+</suite>
+<statistics>
+<total>
+<stat pass="2" fail="5" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="2" fail="5" skip="0" id="s1" name="gRPC Testing">gRPC Testing</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
