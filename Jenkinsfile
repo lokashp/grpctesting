@@ -13,9 +13,6 @@ pipeline {
                 ])
             }
         }
-
- 
-
         stage('Run Robot Test') {
             steps {
                 script {
