@@ -14,7 +14,7 @@ pipeline {
             }
         }
 
-        //test merge
+        //test merge -test
         stage('Run Robot Test') {
             steps {
                 script {
